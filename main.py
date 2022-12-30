@@ -78,7 +78,7 @@ if __name__ == "__main__":
 
     #pass in every file name to perform the analysis
     for filename in filenames:
-        ta.analyzeFile(filename.strip())
+        ta.analyzeFile(filename.strip()) #strip function to remove extra spaces between file names
     
     ta.printOutput() #print the formatted output
     
