@@ -19,33 +19,55 @@ CustomerID, MM/YYYY, Min Balance, Max Balance, Ending Balance
 import csv
 import collections
 
-#open the csv file
-with open('data.csv') as csvfile:
-    rowreader = csv.reader(csvfile, delimiter=' ')
-    customerIDMap = {}
+class TransactionAnalyzer:
+    def __init__(self):
+        self.customerIDMap = {}
+
+    def analyzeFile(self, filename):
+        #open the csv file
+        with open(filename) as csvfile:
+            rowreader = csv.reader(csvfile, delimiter=' ')
+            
+            #iterate through each row and store the customerId, date, and amount
+            for row in rowreader:
+
+                #if row is empty then skip it
+                if row == []: 
+                    continue
+
+                customerID, date, amount = row[0].split(',')
+                month, day, year = date.split('/')
+                shortDate = month + '/' + year
+                
+                if customerID not in self.customerIDMap:
+                    self.customerIDMap[customerID] = {}  
+
+                if shortDate not in self.customerIDMap[customerID]:
+                    self.customerIDMap[customerID][shortDate] = [int(amount), int(amount), int(amount)] #[minBalance, maxBalance, endingBalance]
+                else:
+                    self.customerIDMap[customerID][shortDate][2] += int(amount)
+                    self.customerIDMap[customerID][shortDate][0] = min(self.customerIDMap[customerID][shortDate][2], self.customerIDMap[customerID][shortDate][0])
+                    self.customerIDMap[customerID][shortDate][1] = max(self.customerIDMap[customerID][shortDate][2], self.customerIDMap[customerID][shortDate][1])
+
+    def getOutput(self):
+        return self.customerIDMap
+
+#this is the main function of the program where the program execution begins
+if __name__ == "__main__":
+    ta = TransactionAnalyzer()
     
-    #iterate through each row and store the customerId, date, and amount
-    for row in rowreader:
+    filesInput = input("Enter the name of the files you want to analayze (comma seperated): ")
+    filenames = filesInput.split(',')
+    for filename in filenames:
+        ta.analyzeFile(filename.strip())
+    
+    print(ta.getOutput())
 
-        #if row is empty then skip it
-        if row == []: 
-            continue
-
-        customerID, date, amount = row[0].split(',')
-        month, day, year = date.split('/')
-        shortDate = month + '/' + year
         
-        if customerID not in customerIDMap:
-            customerIDMap[customerID] = {}  
 
-        if shortDate not in customerIDMap[customerID]:
-            customerIDMap[customerID][shortDate] = [int(amount), int(amount), int(amount)] #[minBalance, maxBalance, endingBalance]
-        else:
-            customerIDMap[customerID][shortDate][2] += int(amount)
-            customerIDMap[customerID][shortDate][0] = min(customerIDMap[customerID][shortDate][2], customerIDMap[customerID][shortDate][0])
-            customerIDMap[customerID][shortDate][1] = max(customerIDMap[customerID][shortDate][2], customerIDMap[customerID][shortDate][1])
+    
 
-print(customerIDMap)
+
 
 
 
