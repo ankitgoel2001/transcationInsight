@@ -14,6 +14,10 @@ a `TransactionAnalyzer ` class. There is a `customerID` HashMap I used for stori
 data, which stores another HashMap within it that is the "date" key, and the value
 is a list in the format [minBalance, maxBalance, endingBalance].
 
+The reason I made a nested HashMap, meaning another map for each date is since the same
+customer could deposit for another month. And we have to track the balance for each 
+month by the customer. 
+
 I made sure the program works for reading with multiple csv files. So, this means the
 end output produced will be the analysis after reading through multiple csv files.
 
