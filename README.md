@@ -1,5 +1,9 @@
 # TRANSACTION ANALYSIS
 
+## How to run
+
+To run the program please type `py main.py`
+
 ## Summary
 
 This program is to perform the transaction analaysis of money deposited from a 
