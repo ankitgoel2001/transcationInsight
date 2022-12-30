@@ -49,8 +49,10 @@ class TransactionAnalyzer:
                     self.customerIDMap[customerID][shortDate][0] = min(self.customerIDMap[customerID][shortDate][2], self.customerIDMap[customerID][shortDate][0])
                     self.customerIDMap[customerID][shortDate][1] = max(self.customerIDMap[customerID][shortDate][2], self.customerIDMap[customerID][shortDate][1])
 
-    def getOutput(self):
-        return self.customerIDMap
+    def printOutput(self):
+        for customerID, transactionData in self.customerIDMap.items():
+           for date, balances in transactionData.items():
+            print(customerID + " " + date + " " + str(balances[0]) + " " + str(balances[1]) + " " + str(balances[2]))
 
 #this is the main function of the program where the program execution begins
 if __name__ == "__main__":
@@ -61,7 +63,8 @@ if __name__ == "__main__":
     for filename in filenames:
         ta.analyzeFile(filename.strip())
     
-    print(ta.getOutput())
+    ta.printOutput()
+    
 
         
 
